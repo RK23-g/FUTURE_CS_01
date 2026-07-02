@@ -1,0 +1,99 @@
+{
+    "target": "http://testphp.vulnweb.com",
+    "scan_time": "2026-07-02 15:33:24",
+    "network": {
+        "ip": "44.228.249.3",
+        "ports": [
+            {
+                "port": 80,
+                "status": "open",
+                "service": "http"
+            },
+            {
+                "port": 443,
+                "status": "closed",
+                "service": "https"
+            },
+            {
+                "port": 8080,
+                "status": "closed",
+                "service": "http-alt"
+            }
+        ]
+    },
+    "web": {
+        "status_code": 200,
+        "raw_headers": {
+            "Server": "nginx/1.19.0 (Ubuntu)",
+            "X-Powered-By": "PHP/5.6.40-38+ubuntu20.04.1+deb.sury.org+1",
+            "Content-Type": "text/html; charset=UTF-8",
+            "Connection": "close",
+            "Set-Cookie": "testphp_session=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/"
+        },
+        "security_headers_status": {
+            "Content-Security-Policy": {
+                "description": "Protects against Cross-Site Scripting (XSS) and data injection attacks.",
+                "present": false,
+                "value": null
+            },
+            "Strict-Transport-Security": {
+                "description": "Enforces secure HTTPS connections, preventing SSL stripping.",
+                "present": false,
+                "value": null
+            },
+            "X-Frame-Options": {
+                "description": "Prevents clickjacking attacks by disabling embedding in iframes.",
+                "present": false,
+                "value": null
+            },
+            "X-Content-Type-Options": {
+                "description": "Prevents mime-sniffing vulnerabilities.",
+                "present": false,
+                "value": null
+            },
+            "Referrer-Policy": {
+                "description": "Controls how much referrer info is sent with requests.",
+                "present": false,
+                "value": null
+            },
+            "X-XSS-Protection": {
+                "description": "Legacy header that enables browser XSS filtering.",
+                "present": false,
+                "value": null
+            }
+        },
+        "missing_headers": [
+            "Content-Security-Policy",
+            "Strict-Transport-Security",
+            "X-Frame-Options",
+            "X-Content-Type-Options",
+            "Referrer-Policy",
+            "X-XSS-Protection"
+        ],
+        "configured_headers": [],
+        "disclosures": [
+            {
+                "source": "Server Header",
+                "value": "nginx/1.19.0 (Ubuntu)",
+                "severity": "Medium"
+            },
+            {
+                "source": "X-Powered-By Header",
+                "value": "PHP/5.6.40-38+ubuntu20.04.1+deb.sury.org+1",
+                "severity": "Medium"
+            }
+        ],
+        "cookies": [
+            {
+                "name": "testphp_session",
+                "domain": "testphp.vulnweb.com",
+                "path": "/",
+                "flags": {
+                    "HttpOnly": true,
+                    "Secure": false,
+                    "SameSite": null
+                }
+            }
+        ]
+    }
+}

@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vulnerability Assessment Showcase - testphp.vulnweb.com</title>
+    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-base: #0b0f19;
+            --bg-surface: #131b2e;
+            --bg-glass: rgba(19, 27, 46, 0.75);
+            --border-color: rgba(255, 255, 255, 0.06);
+            --border-glow: rgba(99, 102, 241, 0.15);
+            
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #475569;
+            
+            --accent-primary: #6366f1; /* Indigo */
+            --accent-primary-hover: #4f46e5;
+            --accent-success: #10b981; /* Emerald */
+            --accent-warning: #f59e0b; /* Amber */
+            --accent-danger: #ef4444;  /* Red */
+            --accent-info: #06b6d4;    /* Cyan */
+            
+            --gradient-cyber: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+            --shadow-premium: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
+            --shadow-glow: 0 0 25px rgba(99, 102, 241, 0.2);
+            
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Top Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            background: var(--bg-glass);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow-premium);
+        }
+
+        .nav-logo {
+            font-weight: 800;
+            font-size: 1.25rem;
+            letter-spacing: 0.1em;
+            background: var(--gradient-cyber);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-logo::before {
+            content: '🛡️';
+            font-size: 1.3rem;
+            -webkit-text-fill-color: initial;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 8px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-btn:hover {
+            background: rgba(99, 102, 241, 0.15);
+            border-color: var(--accent-primary);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .nav-btn.primary {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+        }
+
+        .nav-btn.primary:hover {
+            background: var(--accent-primary-hover);
+        }
+
+        /* Header / Hero Section */
+        header {
+            background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.08) 0%, transparent 60%);
+            border: 1px solid var(--border-color);
+            border-radius: 28px;
+            padding: 50px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-premium);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .badge-tag {
+            background: rgba(99, 102, 241, 0.12);
+            color: #a5b4fc;
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            border: 1px solid rgba(99, 102, 241, 0.25);
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 16px;
+            background: linear-gradient(to right, #ffffff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-desc {
+            color: var(--text-secondary);
+            font-size: 1.15rem;
+            max-width: 800px;
+            margin-bottom: 30px;
+        }
+
+        .meta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 30px;
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .meta-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+        }
+
+        .meta-value {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        /* Interactive Simulator Panel */
+        .grid-two-cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 992px) {
+            .grid-two-cols {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card-interactive {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: var(--shadow-premium);
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Score Gauge */
+        .gauge-container {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .gauge-circle {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gauge-svg {
+            transform: rotate(-90deg);
+            width: 100%;
+            height: 100%;
+        }
+
+        .gauge-bg {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.05);
+            stroke-width: 10;
+        }
+
+        .gauge-fill {
+            fill: none;
+            stroke: var(--accent-danger);
+            stroke-width: 10;
+            stroke-dasharray: 314;
+            stroke-dashoffset: 213; /* (1 - 32/100) * 314 = 213.5 */
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.8s ease-in-out, stroke 0.8s ease;
+        }
+
+        .gauge-text {
+            position: absolute;
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        /* Terminal Window */
+        .terminal-window {
+            background-color: #05070c;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            overflow: hidden;
+            font-family: 'JetBrains Mono', monospace;
+            box-shadow: var(--shadow-premium);
+            height: 320px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .terminal-header {
+            background-color: #0c0f17;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .terminal-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .terminal-dot.red { background-color: #ff5f56; }
+        .terminal-dot.yellow { background-color: #ffbd2e; }
+        .terminal-dot.green { background-color: #27c93f; }
+
+        .terminal-title {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .terminal-body {
+            padding: 16px;
+            overflow-y: auto;
+            flex-grow: 1;
+            font-size: 0.85rem;
+            color: #38bdf8;
+            line-height: 1.5;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .terminal-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 15px;
+            background-color: #38bdf8;
+            animation: blink 1s infinite;
+            vertical-align: middle;
+            margin-left: 4px;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        /* Hardening Control Checklist */
+        .checklist-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 14px 18px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .checklist-item:hover {
+            border-color: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .checklist-item input[type="checkbox"] {
+            margin-top: 4px;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent-primary);
+            cursor: pointer;
+        }
+
+        .checklist-details {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .checklist-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .checklist-desc {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .checklist-badge {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 100px;
+            align-self: flex-start;
+            text-transform: uppercase;
+        }
+        .checklist-badge.high { background: rgba(239, 68, 68, 0.1); color: #fca5a5; }
+        .checklist-badge.medium { background: rgba(245, 158, 11, 0.1); color: #fde047; }
+        .checklist-badge.low { background: rgba(6, 182, 212, 0.1); color: #a5f3fc; }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-premium);
+            transition: var(--transition-smooth);
+        }
+
+        .stat-card.danger { border-left: 4px solid var(--accent-danger); }
+        .stat-card.warning { border-left: 4px solid var(--accent-warning); }
+        .stat-card.info { border-left: 4px solid var(--accent-info); }
+        .stat-card.success { border-left: 4px solid var(--accent-success); }
+
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            line-height: 1;
+        }
+
+        .stat-card.danger .stat-value { color: var(--accent-danger); }
+        .stat-card.warning .stat-value { color: var(--accent-warning); }
+        .stat-card.info .stat-value { color: var(--accent-info); }
+        .stat-card.success .stat-value { color: var(--accent-success); }
+
+        .stat-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        /* Findings Accordion */
+        .findings-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .finding-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: var(--transition-smooth);
+            box-shadow: var(--shadow-premium);
+        }
+
+        .finding-card.resolved {
+            opacity: 0.4;
+            border-color: rgba(16, 185, 129, 0.2);
+            background: rgba(16, 185, 129, 0.02);
+            transition: opacity 0.3s ease;
+        }
+
+        .finding-header {
+            padding: 20px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .finding-title-group {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .finding-severity-badge {
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .finding-severity-badge.high {
+            background: rgba(239, 68, 68, 0.15);
+            color: #fca5a5;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .finding-severity-badge.medium {
+            background: rgba(245, 158, 11, 0.15);
+            color: #fde047;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .finding-severity-badge.low {
+            background: rgba(6, 182, 212, 0.15);
+            color: #a5f3fc;
+            border: 1px solid rgba(6, 182, 212, 0.3);
+        }
+
+        .finding-severity-badge.resolved-badge {
+            background: rgba(16, 185, 129, 0.15);
+            color: #a7f3d0;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .finding-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .finding-card.resolved .finding-title {
+            text-decoration: line-through;
+            color: var(--text-secondary);
+        }
+
+        .finding-category {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .finding-toggle-icon {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            transition: var(--transition-smooth);
+        }
+
+        .finding-card.expanded .finding-toggle-icon {
+            transform: rotate(180deg);
+            color: var(--text-primary);
+        }
+
+        .finding-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-top: 0 solid var(--border-color);
+        }
+
+        .finding-card.expanded .finding-body {
+            max-height: 2000px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .finding-details {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .detail-row {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 16px;
+        }
+
+        .detail-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .detail-value {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .evidence-box {
+            background-color: #060810;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: #38bdf8;
+            overflow-x: auto;
+            margin-top: 6px;
+            white-space: pre-wrap;
+        }
+
+        .remediation-steps {
+            background: rgba(16, 185, 129, 0.04);
+            border: 1px solid rgba(16, 185, 129, 0.15);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 10px;
+        }
+
+        .remediation-title {
+            color: var(--accent-success);
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 50px 0;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 60px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .footer-logo {
+            font-weight: 700;
+            color: var(--text-secondary);
+            letter-spacing: 0.05em;
+        }
+
+        /* Filter bar */
+        .filter-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 8px;
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid var(--border-color);
+            padding: 4px;
+            border-radius: 12px;
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .filter-btn:hover {
+            color: var(--text-primary);
+        }
+
+        .filter-btn.active {
+            background-color: var(--accent-primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- Navigation bar -->
+        <nav>
+            <div class="nav-logo">PORTFOLIO SHOWCASE</div>
+            <div class="nav-links">
+                <a href="./vulnerability_report.html" class="nav-btn" target="_blank">📄 Printable PDF Report</a>
+                <a href="https://github.com" class="nav-btn primary" id="github-btn" target="_blank">⚙️ View GitHub Repository</a>
+            </div>
+        </nav>
+
+        <!-- Header / Hero Section -->
+        <header>
+            <div class="header-top">
+                <span class="badge-tag">Cyber Security Training Project</span>
+                <span class="badge-tag" style="background: rgba(16, 185, 129, 0.1); color: #6ee7b7; border-color: rgba(16, 185, 129, 0.25);">Live Portfolio App</span>
+            </div>
+            <h1>Interactive Security Hardening Dashboard</h1>
+            <p class="header-desc">
+                This interactive portfolio showcases a passive vulnerability assessment conducted on <strong>testphp.vulnweb.com</strong>. Review the audit results below, run a real-time scanner simulation, or check off the remediation tasks in the planner to simulate server hardening in real-time.
+            </p>
+            
+            <div class="meta-grid">
+                <div class="meta-item">
+                    <span class="meta-label">Target Host</span>
+                    <span class="meta-value">testphp.vulnweb.com</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Audit Scope</span>
+                    <span class="meta-value">Read-Only External Passive</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Frameworks</span>
+                    <span class="meta-value">OWASP WSTG / Custom Python Scanner</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Project Owner</span>
+                    <span class="meta-value">Cyber Security Intern</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Interactive Section -->
+        <div class="grid-two-cols">
+            
+            <!-- Left Card: Hardening Planner -->
+            <div class="card-interactive">
+                <div class="gauge-container">
+                    <div class="gauge-circle">
+                        <svg class="gauge-svg">
+                            <circle class="gauge-bg" cx="60" cy="60" r="50"></circle>
+                            <circle class="gauge-fill" id="score-gauge" cx="60" cy="60" r="50"></circle>
+                        </svg>
+                        <div class="gauge-text" id="score-val">32%</div>
+                    </div>
+                    <div>
+                        <h2 style="font-size: 1.3rem; font-weight: 700;">Hardening Planner</h2>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 4px;">
+                            Check off remediation items to patch vulnerabilities and watch the security rating improve!
+                        </p>
+                    </div>
+                </div>
+
+                <div class="checklist-group">
+                    <div class="checklist-item" onclick="toggleCheck('item-csp')">
+                        <input type="checkbox" id="item-csp" onchange="updateHardeningScore()">
+                        <div class="checklist-details">
+                            <span class="checklist-badge high">High Risk</span>
+                            <span class="checklist-title">Deploy Content Security Policy (CSP)</span>
+                            <span class="checklist-desc">Mitigates Cross-Site Scripting (XSS) injections. (+18 points)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="checklist-item" onclick="toggleCheck('item-php')">
+                        <input type="checkbox" id="item-php" onchange="updateHardeningScore()">
+                        <div class="checklist-details">
+                            <span class="checklist-badge high">High Risk</span>
+                            <span class="checklist-title">Upgrade Outdated PHP Version & Hide expose_php</span>
+                            <span class="checklist-desc">Upgrades PHP 5.6 to PHP 8.2 and hides headers. (+18 points)</span>
+                        </div>
+                    </div>
+
+                    <div class="checklist-item" onclick="toggleCheck('item-frame')">
+                        <input type="checkbox" id="item-frame" onchange="updateHardeningScore()">
+                        <div class="checklist-details">
+                            <span class="checklist-badge medium">Medium Risk</span>
+                            <span class="checklist-title">Deploy X-Frame-Options Header</span>
+                            <span class="checklist-desc">Prevents Clickjacking overlay framing. (+12 points)</span>
+                        </div>
+                    </div>
+
+                    <div class="checklist-item" onclick="toggleCheck('item-cookie')">
+                        <input type="checkbox" id="item-cookie" onchange="updateHardeningScore()">
+                        <div class="checklist-details">
+                            <span class="checklist-badge medium">Medium Risk</span>
+                            <span class="checklist-title">Configure Secure Cookie Flags</span>
+                            <span class="checklist-desc">Enforces HttpOnly, Secure, and SameSite flags. (+12 points)</span>
+                        </div>
+                    </div>
+
+                    <div class="checklist-item" onclick="toggleCheck('item-server')">
+                        <input type="checkbox" id="item-server" onchange="updateHardeningScore()">
+                        <div class="checklist-details">
+                            <span class="checklist-badge medium">Medium Risk</span>
+                            <span class="checklist-title">Disable Nginx Server Tokens</span>
+                            <span class="checklist-desc">Hides OS and web server signature version leaks. (+8 points)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Card: Live Scanner Output -->
+            <div class="card-interactive" style="justify-content: flex-start;">
+                <div>
+                    <h2 style="font-size: 1.3rem; font-weight: 700; display: flex; align-items: center; gap: 8px;">
+                        <span>Terminal Scanner Simulator</span>
+                    </h2>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 4px; margin-bottom: 12px;">
+                        Execute a simulation of the custom python security audit script directly inside this page.
+                    </p>
+                    <button class="nav-btn primary" onclick="runScannerSimulation()" id="run-sim-btn">⚡ Run Scanner Simulation</button>
+                </div>
+
+                <div class="terminal-window">
+                    <div class="terminal-header">
+                        <div class="terminal-dots">
+                            <div class="terminal-dot red"></div>
+                            <div class="terminal-dot yellow"></div>
+                            <div class="terminal-dot green"></div>
+                        </div>
+                        <div class="terminal-title">passive_scanner.py (simulation)</div>
+                        <div style="width: 36px;"></div>
+                    </div>
+                    <div class="terminal-body" id="terminal-content">
+                        <span>$ python passive_scanner.py --target testphp.vulnweb.com<span class="terminal-cursor"></span></span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Stats Overview -->
+        <div class="stats-grid">
+            <div class="stat-card danger" id="card-high">
+                <div>
+                    <div class="stat-value" id="val-high">2</div>
+                    <div class="stat-label">High Risk Open</div>
+                </div>
+            </div>
+            <div class="stat-card warning" id="card-medium">
+                <div>
+                    <div class="stat-value" id="val-medium">3</div>
+                    <div class="stat-label">Medium Risk Open</div>
+                </div>
+            </div>
+            <div class="stat-card info" id="card-low">
+                <div>
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">Low Risk Open</div>
+                </div>
+            </div>
+            <div class="stat-card success" id="card-rating">
+                <div>
+                    <div class="stat-value" id="val-rating">F</div>
+                    <div class="stat-label" id="lbl-rating">Critical Security Rating</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Findings List -->
+        <div class="filter-bar">
+            <h2 style="font-size: 1.4rem; font-weight: 700;">Audit Vulnerability Findings</h2>
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filterFindings('all')">All (8)</button>
+                <button class="filter-btn" onclick="filterFindings('high')">High</button>
+                <button class="filter-btn" onclick="filterFindings('medium')">Medium</button>
+                <button class="filter-btn" onclick="filterFindings('low')">Low</button>
+            </div>
+        </div>
+
+        <div class="findings-list" id="findings-container">
+            
+            <!-- Finding 1 (CSP) -->
+            <div class="finding-card" data-severity="high" id="card-find-csp">
+                <div class="finding-header" onclick="toggleCard(this)">
+                    <div class="finding-title-group">
+                        <span class="finding-severity-badge high" id="badge-find-csp">High</span>
+                        <div>
+                            <div class="finding-title">Missing Content Security Policy (CSP) Header</div>
+                            <div class="finding-category">Web Infrastructure Security</div>
+                        </div>
+                    </div>
+                    <div class="finding-toggle-icon">▼</div>
+                </div>
+                <div class="finding-body">
+                    <div class="finding-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Vulnerability ID</span>
+                            <span class="detail-value">CWE-693 (Protection Mechanism Failure)</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Business Risk</span>
+                            <span class="detail-value">If an attacker finds an input injection point, they can load malicious scripts (XSS), steal session cookies, or capture keystrokes.</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Technical Observation</span>
+                            <span class="detail-value">The HTTP response header <code>Content-Security-Policy</code> is completely missing. Browsers will execute any script hosted on any domain.</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Evidence</span>
+                            <div class="detail-value">
+                                <p>Raw Headers Received:</p>
+                                <div class="evidence-box">HTTP/1.1 200 OK
+Server: nginx/1.19.0 (Ubuntu)
+Content-Type: text/html; charset=UTF-8
+(No Content-Security-Policy header present)</div>
+                            </div>
+                        </div>
+                        <div class="remediation-steps">
+                            <div class="remediation-title">🛡️ Practical Remediation Steps</div>
+                            <div class="evidence-box"># For Nginx:
+add_header Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';";</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Finding 2 (PHP) -->
+            <div class="finding-card" data-severity="high" id="card-find-php">
+                <div class="finding-header" onclick="toggleCard(this)">
+                    <div class="finding-title-group">
+                        <span class="finding-severity-badge high" id="badge-find-php">High</span>
+                        <div>
+                            <div class="finding-title">Outdated PHP Engine Version Disclosure</div>
+                            <div class="finding-category">Software Patch Management</div>
+                        </div>
+                    </div>
+                    <div class="finding-toggle-icon">▼</div>
+                </div>
+                <div class="finding-body">
+                    <div class="finding-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Vulnerability ID</span>
+                            <span class="detail-value">CWE-937 (Outdated Component / Version Disclosure)</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Business Risk</span>
+                            <span class="detail-value">Using end-of-life (EOL) software means the server has publicly known vulnerabilities that will never be patched by developers.</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Technical Observation</span>
+                            <span class="detail-value">The <code>X-Powered-By</code> header leaks that the site runs <strong>PHP 5.6.40</strong>. PHP 5.6 reached End-of-Life in December 2018.</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Evidence</span>
+                            <div class="detail-value">
+                                <div class="evidence-box">X-Powered-By: PHP/5.6.40-38+ubuntu20.04.1+deb.sury.org+1</div>
+                            </div>
+                        </div>
+                        <div class="remediation-steps">
+                            <div class="remediation-title">🛡️ Practical Remediation Steps</div>
+                            <div class="evidence-box"># php.ini configuration:
+expose_php = Off</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Finding 3 (Frame) -->
+            <div class="finding-card" data-severity="medium" id="card-find-frame">
+                <div class="finding-header" onclick="toggleCard(this)">
+                    <div class="finding-title-group">
+                        <span class="finding-severity-badge medium" id="badge-find-frame">Medium</span>
+                        <div>
+                            <div class="finding-title">Missing X-Frame-Options Header (Clickjacking Risk)</div>
+                            <div class="finding-category">Web Infrastructure Security</div>
+                        </div>
+                    </div>
+                    <div class="finding-toggle-icon">▼</div>
+                </div>
+                <div class="finding-body">
+                    <div class="finding-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Vulnerability ID</span>
+                            <span class="detail-value">CWE-1021 (Frame Overlay Clickjacking)</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Business Risk</span>
+                            <span class="detail-value">Attackers can embed this website inside an invisible iframe to hijack user mouse clicks.</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Evidence</span>
+                            <div class="detail-value">
+                                <p>Header check: No <code>X-Frame-Options</code> or <code>frame-ancestors</code> directive in headers.</p>
+                            </div>
+                        </div>
+                        <div class="remediation-steps">
+                            <div class="remediation-title">🛡️ Practical Remediation Steps</div>
+                            <div class="evidence-box"># For Nginx:
+add_header X-Frame-Options "SAMEORIGIN";</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Finding 4 (Cookie) -->
+            <div class="finding-card" data-severity="medium" id="card-find-cookie">
+                <div class="finding-header" onclick="toggleCard(this)">
+                    <div class="finding-title-group">
+                        <span class="finding-severity-badge medium" id="badge-find-cookie">Medium</span>
+                        <div>
+                            <div class="finding-title">Insecure Session Cookie Configuration</div>
+                            <div class="finding-category">Session Management</div>
+                        </div>
+                    </div>
+                    <div class="finding-toggle-icon">▼</div>
+                </div>
+                <div class="finding-body">
+                    <div class="finding-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Vulnerability ID</span>
+                            <span class="detail-value">CWE-614 (Sensitive Cookie Insecure Session)</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Evidence</span>
+                            <div class="detail-value">
+                                <div class="evidence-box">Set-Cookie: testphp_session=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0; path=/
+(Missing: HttpOnly, Secure, SameSite flags)</div>
+                            </div>
+                        </div>
+                        <div class="remediation-steps">
+                            <div class="remediation-title">🛡️ Practical Remediation Steps</div>
+                            <div class="evidence-box">session.cookie_httponly = True
+session.cookie_secure = True
+session.cookie_samesite = "Lax"</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Finding 5 (Server Tokens) -->
+            <div class="finding-card" data-severity="medium" id="card-find-server">
+                <div class="finding-header" onclick="toggleCard(this)">
+                    <div class="finding-title-group">
+                        <span class="finding-severity-badge medium" id="badge-find-server">Medium</span>
+                        <div>
+                            <div class="finding-title">Exposed Web Server Banner / Signature Leaks</div>
+                            <div class="finding-category">Information Disclosure</div>
+                        </div>
+                    </div>
+                    <div class="finding-toggle-icon">▼</div>
+                </div>
+                <div class="finding-body">
+                    <div class="finding-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Vulnerability ID</span>
+                            <span class="detail-value">CWE-200 (Exposure of Sensitive Information)</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Evidence</span>
+                            <div class="detail-value">
+                                <div class="evidence-box">Server: nginx/1.19.0 (Ubuntu)</div>
+                            </div>
+                        </div>
+                        <div class="remediation-steps">
+                            <div class="remediation-title">🛡️ Practical Remediation Steps</div>
+                            <div class="evidence-box"># Nginx config:
+server_tokens off;</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Finding 6 (X-Content-Type) -->
+            <div class="finding-card" data-severity="low">
+                <div class="finding-header" onclick="toggleCard(this)">
+                    <div class="finding-title-group">
+                        <span class="finding-severity-badge low">Low</span>
+                        <div>
+                            <div class="finding-title">Missing X-Content-Type-Options Header</div>
+                            <div class="finding-category">Web Infrastructure Security</div>
+                        </div>
+                    </div>
+                    <div class="finding-toggle-icon">▼</div>
+                </div>
+                <div class="finding-body">
+                    <div class="finding-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Vulnerability ID</span>
+                            <span class="detail-value">CWE-116 (Improper Escaping / Mime Sniffing)</span>
+                        </div>
+                        <div class="remediation-steps">
+                            <div class="remediation-title">🛡️ Practical Remediation Steps</div>
+                            <div class="evidence-box">add_header X-Content-Type-Options "nosniff";</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Finding 7 (Referrer Policy) -->
+            <div class="finding-card" data-severity="low">
+                <div class="finding-header" onclick="toggleCard(this)">
+                    <div class="finding-title-group">
+                        <span class="finding-severity-badge low">Low</span>
+                        <div>
+                            <div class="finding-title">Missing Referrer-Policy Header</div>
+                            <div class="finding-category">Web Infrastructure Security</div>
+                        </div>
+                    </div>
+                    <div class="finding-toggle-icon">▼</div>
+                </div>
+                <div class="finding-body">
+                    <div class="finding-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Vulnerability ID</span>
+                            <span class="detail-value">CWE-200 (Information Disclosure)</span>
+                        </div>
+                        <div class="remediation-steps">
+                            <div class="remediation-title">🛡️ Practical Remediation Steps</div>
+                            <div class="evidence-box">add_header Referrer-Policy "strict-origin-when-cross-origin";</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Finding 8 (HSTS) -->
+            <div class="finding-card" data-severity="low">
+                <div class="finding-header" onclick="toggleCard(this)">
+                    <div class="finding-title-group">
+                        <span class="finding-severity-badge low">Low</span>
+                        <div>
+                            <div class="finding-title">Missing Strict-Transport-Security (HSTS) Header</div>
+                            <div class="finding-category">Encryption Transit Security</div>
+                        </div>
+                    </div>
+                    <div class="finding-toggle-icon">▼</div>
+                </div>
+                <div class="finding-body">
+                    <div class="finding-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Vulnerability ID</span>
+                            <span class="detail-value">CWE-523 (Unencrypted Channel)</span>
+                        </div>
+                        <div class="remediation-steps">
+                            <div class="remediation-title">🛡️ Practical Remediation Steps</div>
+                            <div class="evidence-box">add_header Strict-Transport-Security "max-age=63072000; includeSubDomains" always;</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-logo">FUTURE INTERNS</div>
+            <div>Cyber Security Task 1 - Live Portfolio Showcase Showcase</div>
+            <div>&copy; 2026 Future Interns. All rights reserved.</div>
+        </footer>
+
+    </div>
+
+    <!-- JavaScript for Simulator Interactions -->
+    <script>
+        // Set actual username in Github button if path matches
+        const currentPath = window.location.pathname;
+        const matches = currentPath.match(/\/brain\/([^\/]+)/);
+        if (matches && matches[1]) {
+            document.getElementById("github-btn").href = "https://github.com/your-username/future-interns-cyber-security-task-1";
+        }
+
+        // Checklist toggle
+        function toggleCheck(checkboxId) {
+            const cb = document.getElementById(checkboxId);
+            // Toggle when clicking container except when clicking input itself
+            if (event.target !== cb) {
+                cb.checked = !cb.checked;
+            }
+            updateHardeningScore();
+        }
+
+        // Hardening Logic
+        function updateHardeningScore() {
+            let score = 32;
+            let openHigh = 2;
+            let openMedium = 3;
+
+            // Flags
+            const csp = document.getElementById('item-csp').checked;
+            const php = document.getElementById('item-php').checked;
+            const frame = document.getElementById('item-frame').checked;
+            const cookie = document.getElementById('item-cookie').checked;
+            const server = document.getElementById('item-server').checked;
+
+            // Score changes
+            if (csp) { score += 18; openHigh--; resolveCard('card-find-csp', 'badge-find-csp'); }
+            else { unresolveCard('card-find-csp', 'badge-find-csp', 'high'); }
+            
+            if (php) { score += 18; openHigh--; resolveCard('card-find-php', 'badge-find-php'); }
+            else { unresolveCard('card-find-php', 'badge-find-php', 'high'); }
+
+            if (frame) { score += 12; openMedium--; resolveCard('card-find-frame', 'badge-find-frame'); }
+            else { unresolveCard('card-find-frame', 'badge-find-frame', 'medium'); }
+
+            if (cookie) { score += 12; openMedium--; resolveCard('card-find-cookie', 'badge-find-cookie'); }
+            else { unresolveCard('card-find-cookie', 'badge-find-cookie', 'medium'); }
+
+            if (server) { score += 8; openMedium--; resolveCard('card-find-server', 'badge-find-server'); }
+            else { unresolveCard('card-find-server', 'badge-find-server', 'medium'); }
+
+            // Apply Cap
+            if (score > 100) score = 100;
+
+            // Update stats
+            document.getElementById('score-val').innerText = score + '%';
+            document.getElementById('val-high').innerText = openHigh;
+            document.getElementById('val-medium').innerText = openMedium;
+
+            // Update gauge circle stroke-dashoffset
+            // Circumference is 314
+            const strokeDashOffset = 314 - (score / 100) * 314;
+            const fillCircle = document.getElementById('score-gauge');
+            fillCircle.style.strokeDashoffset = strokeDashOffset;
+
+            // Rating changes
+            let rating = 'F';
+            let ratingColor = 'var(--accent-danger)';
+            let ratingLabel = 'Critical Security Rating';
+
+            if (score >= 90) { rating = 'A'; ratingColor = 'var(--accent-success)'; ratingLabel = 'Hardened Secure Server'; }
+            else if (score >= 80) { rating = 'B'; ratingColor = 'var(--accent-info)'; ratingLabel = 'Good Infrastructure'; }
+            else if (score >= 60) { rating = 'C'; ratingColor = 'var(--accent-warning)'; ratingLabel = 'Moderate Exposure'; }
+            else if (score >= 45) { rating = 'D'; ratingColor = 'var(--accent-warning)'; ratingLabel = 'High Vulnerability Risk'; }
+            
+            document.getElementById('val-rating').innerText = rating;
+            document.getElementById('card-rating').style.borderColor = ratingColor;
+            document.getElementById('val-rating').style.color = ratingColor;
+            document.getElementById('lbl-rating').innerText = ratingLabel;
+
+            // Update gauge color
+            fillCircle.style.stroke = ratingColor;
+        }
+
+        function resolveCard(cardId, badgeId) {
+            document.getElementById(cardId).classList.add('resolved');
+            const badge = document.getElementById(badgeId);
+            badge.className = 'finding-severity-badge resolved-badge';
+            badge.innerText = 'RESOLVED';
+        }
+
+        function unresolveCard(cardId, badgeId, severity) {
+            document.getElementById(cardId).classList.remove('resolved');
+            const badge = document.getElementById(badgeId);
+            badge.className = 'finding-severity-badge ' + severity;
+            badge.innerText = severity.toUpperCase();
+        }
+
+        // Collapsible Accordion logic
+        function toggleCard(headerElement) {
+            const card = headerElement.closest('.finding-card');
+            card.classList.toggle('expanded');
+        }
+
+        // Findings Filtering
+        function filterFindings(severity) {
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const cards = document.querySelectorAll('.finding-card');
+            cards.forEach(card => {
+                if (severity === 'all') {
+                    card.style.display = 'block';
+                } else {
+                    const cardSeverity = card.getAttribute('data-severity');
+                    if (cardSeverity === severity) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                }
+            });
+        }
+
+        // Simulated scanner output text
+        const logLines = [
+            "[2026-07-02 15:33:04] [INFO] Resolving host: testphp.vulnweb.com...",
+            "[2026-07-02 15:33:04] [SUCCESS] Resolved to IP: 44.228.249.3",
+            "[2026-07-02 15:33:04] [INFO] Starting passive port checks...",
+            "[2026-07-02 15:33:10] [WARNING] Port 80 (http): OPEN",
+            "[2026-07-02 15:33:12] [INFO] Connecting to HTTP endpoint...",
+            "[2026-07-02 15:33:14] [SUCCESS] Response code received: 200 OK",
+            "[2026-07-02 15:33:15] [WARNING] Exposing signature: Server: nginx/1.19.0 (Ubuntu)",
+            "[2026-07-02 15:33:17] [WARNING] Exposing signature: X-Powered-By: PHP/5.6.40",
+            "[2026-07-02 15:33:19] [WARNING] Missing HTTP Security Header: Content-Security-Policy",
+            "[2026-07-02 15:33:20] [WARNING] Missing HTTP Security Header: Strict-Transport-Security",
+            "[2026-07-02 15:33:21] [WARNING] Missing HTTP Security Header: X-Frame-Options",
+            "[2026-07-02 15:33:22] [WARNING] Missing HTTP Security Header: X-Content-Type-Options",
+            "[2026-07-02 15:33:23] [WARNING] Cookie testphp_session missing secure flag.",
+            "[2026-07-02 15:33:24] [SUCCESS] Logs written to scan_results.txt and json.",
+            "[2026-07-02 15:33:24] [INFO] === Passive Scan Complete ==="
+        ];
+
+        let simRunning = false;
+
+        function runScannerSimulation() {
+            if (simRunning) return;
+            simRunning = true;
+            
+            const btn = document.getElementById('run-sim-btn');
+            btn.disabled = true;
+            btn.innerText = "⏳ Running Scan...";
+            
+            const term = document.getElementById('terminal-content');
+            term.innerHTML = "<span>$ python passive_scanner.py --target testphp.vulnweb.com</span>";
+
+            let lineIndex = 0;
+            
+            function printNextLine() {
+                if (lineIndex < logLines.length) {
+                    const l = logLines[lineIndex];
+                    let color = "#38bdf8";
+                    if (l.includes("SUCCESS")) color = "#10b981";
+                    if (l.includes("WARNING")) color = "#f59e0b";
+                    
+                    const span = document.createElement('span');
+                    span.style.color = color;
+                    span.innerText = l;
+                    term.appendChild(span);
+                    term.scrollTop = term.scrollHeight;
+                    lineIndex++;
+                    setTimeout(printNextLine, 500);
+                } else {
+                    const cursorSpan = document.createElement('span');
+                    cursorSpan.innerHTML = "$ <span class='terminal-cursor'></span>";
+                    term.appendChild(cursorSpan);
+                    term.scrollTop = term.scrollHeight;
+                    
+                    btn.disabled = false;
+                    btn.innerText = "⚡ Re-run Scanner Simulation";
+                    simRunning = false;
+                }
+            }
+
+            setTimeout(printNextLine, 600);
+        }
+    </script>
+</body>
+</html>

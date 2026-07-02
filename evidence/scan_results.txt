@@ -1,0 +1,36 @@
+====================================================
+PASSIVE SECURITY AUDIT LOG FOR: http://testphp.vulnweb.com
+Scan Time: 2026-07-02 15:33:24
+====================================================
+
+1. NETWORK SERVICE RESOLUTION & PORT ASSESSMENT
+Resolved IP Address: 44.228.249.3
+  - Port 80 (http): OPEN (Potential Exposure)
+
+2. SECURITY HEADER ASSESSMENT
+Configured Security Headers:
+  - None
+
+Missing Security Headers:
+  - [MISSING] Content-Security-Policy
+    Detail: Protects against Cross-Site Scripting (XSS) and data injection attacks.
+  - [MISSING] Strict-Transport-Security
+    Detail: Enforces secure HTTPS connections, preventing SSL stripping.
+  - [MISSING] X-Frame-Options
+    Detail: Prevents clickjacking attacks by disabling embedding in iframes.
+  - [MISSING] X-Content-Type-Options
+    Detail: Prevents mime-sniffing vulnerabilities.
+  - [MISSING] Referrer-Policy
+    Detail: Controls how much referrer info is sent with requests.
+  - [MISSING] X-XSS-Protection
+    Detail: Legacy header that enables browser XSS filtering.
+
+3. TECHNOLOGY DISCLOSURE ASSESSMENT
+  - [RISK] Server Header: nginx/1.19.0 (Ubuntu) (Severity: Medium)
+  - [RISK] X-Powered-By Header: PHP/5.6.40-38+ubuntu20.04.1+deb.sury.org+1 (Severity: Medium)
+
+4. SESSION COOKIE SECURITY FLAGS
+  - Cookie Name: 'testphp_session'
+    Secure Flag:   False (Protects transport encryption)
+    HttpOnly Flag: True (Prevents XSS session stealing)
+    SameSite Flag: None (Mitigates CSRF attacks)
